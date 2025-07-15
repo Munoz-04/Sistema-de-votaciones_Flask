@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Python Login</title>
+  <title>Registro de Usuarios</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+  <div class="top-bar">
+    <a href="/admin" class="admin-button">Acceso Administrador</a>
+  </div>
+
   <div class="login">
     <img src="/static/python-logo.png" alt="Python Logo" class="logo-top-left">
-    <h1>Login</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <p style="color: red; text-align: center;">{{ messages[0] }}</p>
-      {% endif %}
-    {% endwith %}
-    <form method="post" action="/login">
-      <input type="text" name="u" placeholder="Username" required />
-      <input type="password" name="p" placeholder="Password" required />
-      <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+    <h1>Registro</h1>
+    <form method="post" action="/register">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="text" name="identificacion" placeholder="Identificación" required>
+      <button type="submit" class="btn btn-primary btn-block btn-large">Registrarse</button>
     </form>
   </div>
 </body>
 </html>
+  
