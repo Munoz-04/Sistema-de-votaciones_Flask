@@ -1,26 +1,40 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
-app.secret_key = 'clave_secreta_segura'  # Necesaria para usar flash
+app.secret_key = 'clave_segura'
 
-# Página principal (formulario)
+# Diccionario de administradores
+admins = {
+    "admin": "123",
+    "mau": "123",
+    "juan": "123",
+    "juandi": "123"
+}
+
+# Página principal con formulario de registro
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
-# Ruta que recibe el login
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form.get('u')
-    password = request.form.get('p')
+# Procesar registro
+@app.route('/register', methods=['POST'])
+def register():
+    nombre = request.form.get('nombre')
+    identificacion = request.form.get('identificacion')
+    return render_template('success.html', nombre=nombre, identificacion=identificacion)
 
-    # Lógica simple de validación
-    if username == "admin" and password == "1234":
-        return f"<h2>¡Bienvenido, {username}!</h2>"
-    else:
-        flash("Usuario o contraseña incorrectos")
-        return redirect(url_for('home'))
+# Ruta de login admin
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'POST':
+        user = request.form.get('admin_user')
+        password = request.form.get('admin_pass')
+        if user in admins and admins[user] == password:
+            return f"<h2>Bienvenido, {user.capitalize()}</h2>"
+        else:
+            flash("Credenciales incorrectas")
+            return redirect(url_for('admin'))
+    return render_template('admin_login.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
-
