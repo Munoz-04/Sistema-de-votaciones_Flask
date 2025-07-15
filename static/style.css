@@ -102,3 +102,19 @@ input:focus {
   max-width: 60px;
   height: auto;
 }
+
+.top-bar {
+  background-color: #111;
+  padding: 10px 20px;
+  text-align: right;
+}
+.admin-button {
+  background-color: #4a77d4;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+}
+.admin-button:hover {
+  background-color: #355bb0;
+}
