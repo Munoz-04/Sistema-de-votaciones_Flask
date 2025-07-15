@@ -12,7 +12,7 @@ import json # Asegúrate de que json esté importado
 app = Flask(__name__)
 # app.secret_key = 'super_secret_key' # Esta línea sigue comentada o eliminada
 
-# --- Configuración de la Base de Datos ---
+# -- Configuración de la Base de Datos --
 DATABASE = 'votacion.db'
 
 def get_db_connection():
