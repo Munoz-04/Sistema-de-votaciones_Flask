@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mensaje</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="/" class="admin-button">🏠 Volver al inicio</a>
+    </div>
+
+    <div class="login">
+        <h1>{{ mensaje }}</h1>
+    </div>
+</body>
+</html>

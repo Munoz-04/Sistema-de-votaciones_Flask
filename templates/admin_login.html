@@ -1,23 +1,26 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Acceso Administrador</title>
-  <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <title>Login Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div class="login">
-    <h1>Login Administrador</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <p style="color: red; text-align: center;">{{ messages[0] }}</p>
-      {% endif %}
-    {% endwith %}
-    <form method="post" action="/admin">
-      <input type="text" name="admin_user" placeholder="Usuario" required>
-      <input type="password" name="admin_pass" placeholder="Contraseña" required>
-      <button type="submit" class="btn btn-primary btn-block btn-large">Entrar</button>
-    </form>
-  </div>
+    <div class="login">
+        <h1>Ingreso Administrador</h1>
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+        <form method="post">
+            <input type="text" name="usuario" placeholder="Usuario" required>
+            <input type="password" name="clave" placeholder="Contraseña" required>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+
+        <div style="text-align:center; margin-top: 20px;">
+            <a href="/" class="btn">← Volver al registro de votantes</a>
+        </div>
+    </div>
 </body>
 </html>
