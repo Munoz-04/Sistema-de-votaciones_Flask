@@ -9,10 +9,13 @@
   <div class="top-bar">
     <a href="/admin" class="admin-button">Acceso Administrador</a>
   </div>
-
   <div class="login">
-    <img src="/static/python-logo.png" alt="Python Logo" class="logo-top-left">
     <h1>Registro</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <p style="color: red; text-align: center;">{{ messages[0] }}</p>
+      {% endif %}
+    {% endwith %}
     <form method="post" action="/register">
       <input type="text" name="nombre" placeholder="Nombre completo" required>
       <input type="text" name="identificacion" placeholder="Identificación" required>
@@ -21,4 +24,3 @@
   </div>
 </body>
 </html>
-  

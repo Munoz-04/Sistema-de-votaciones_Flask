@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Votantes Registrados</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: radial-gradient(ellipse at 0% 100%, rgba(104, 128, 138, 0.4) 10%, rgba(138, 114, 76, 0) 40%),
+                  linear-gradient(to bottom, rgba(57, 173, 219, 0.25) 0%, rgba(42, 60, 87, 0.4) 100%),
+                  linear-gradient(135deg, #670d10 0%, #092756 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .votantes-box {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0001;
+      padding: 36px 32px 28px 32px;
+      text-align: center;
+      min-width: 340px;
+      max-width: 540px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      font-size: 1em;
+    }
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .button-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .btn {
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 24px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover { background: #1c5d85; }
+    h1 {
+      margin-bottom: 18px;
+      color: #092756;
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <div class="votantes-box">
+    <h1>Votantes Registrados</h1>
+    <div class="button-group">
+      <a href="/descargar_votantes_excel" class="btn">Descargar Excel</a>
+      <a href="/descargar_votantes_json" class="btn">Descargar JSON</a>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Identificación</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+          <td>{{ usuario['nombre'] }}</td>
+          <td>{{ usuario['identificacion'] }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="2">No hay votantes registrados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="/panel_admin" class="btn" style="margin-top:10px;">Volver al Panel</a>
+  </div>
+</body>
+</html>

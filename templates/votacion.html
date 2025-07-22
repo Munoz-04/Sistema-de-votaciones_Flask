@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Votación</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: radial-gradient(ellipse at 0% 100%, rgba(104, 128, 138, 0.4) 10%, rgba(138, 114, 76, 0) 40%),
+                  linear-gradient(to bottom, rgba(57, 173, 219, 0.25) 0%, rgba(42, 60, 87, 0.4) 100%),
+                  linear-gradient(135deg, #670d10 0%, #092756 100%);
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .voto-center-box {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0001;
+      padding: 36px 32px 28px 32px;
+      text-align: center;
+      min-width: 340px;
+      max-width: 540px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .candidatos-horizontal {
+      display: flex;
+      flex-direction: row;
+      gap: 32px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 32px;
+      width: 100%;
+      justify-content: center;
+    }
+    .candidato-card {
+      min-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .candidato-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #4a77d4;
+      background: #fff;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 8px #0002;
+    }
+    .candidato-label {
+      font-size: 1em;
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+    }
+    select {
+      width: 80%;
+      padding: 8px;
+      margin-bottom: 24px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      margin-top: 10px;
+    }
+    button {
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 0;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 80%;
+      margin-top: 10px;
+    }
+    button:hover { background: #1c5d85; }
+    h1 {
+      margin-bottom: 18px;
+      color: #092756;
+      font-size: 1.5em;
+    }
+    @media (max-width: 600px) {
+      .voto-center-box {
+        min-width: 90vw;
+        padding: 16px 4px;
+      }
+      .candidatos-horizontal {
+        gap: 16px;
+      }
+      .candidato-card {
+        min-width: 90px;
+      }
+      .candidato-img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="voto-center-box">
+    <h1>Vota por tu candidato</h1>
+    <div class="candidatos-horizontal">
+      {% for candidato in candidatos %}
+        <div class="candidato-card">
+          <img src="{{ url_for('static', filename='img/' ~ candidato ~ '.png') }}" alt="{{ candidato }}" class="candidato-img">
+          <div class="candidato-label">{{ candidato.replace('candidato', 'Candidato ') }}</div>
+        </div>
+      {% endfor %}
+    </div>
+    <form method="post" action="/votar">
+      <select name="eleccion" required>
+        <option value="" disabled selected>Selecciona un candidato</option>
+        {% for candidato in candidatos %}
+          <option value="{{ candidato }}">{{ candidato.replace('candidato', 'Candidato ') }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-success btn-block btn-large">Votar</button>
+    </form>
+  </div>
+</body>
+</html>

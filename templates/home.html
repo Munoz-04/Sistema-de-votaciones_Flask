@@ -1,40 +1,143 @@
-
-{% extends "base.html" %}
-
-{% block title %}Panel de Administrador - Sistema de Votación{% endblock %}
-
-{% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card shadow-lg p-4">
-            <h1 class="card-title text-center mb-4">Bienvenido, Administrador</h1>
-            <p class="text-center text-muted mb-5">Desde aquí puedes gestionar los resultados de la votación.</p>
-
-            <div class="row row-cols-1 row-cols-md-2 g-4 text-center">
-                <div class="col">
-                    <div class="card h-100 border-primary">
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                            <h5 class="card-title mb-3">Ver Resultados en Lista</h5>
-                            <p class="card-text">Consulta el detalle de los votos por candidato.</p>
-                            <a href="/resultados" class="btn btn-primary mt-auto">Ir a Resultados</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 border-success">
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                            <h5 class="card-title mb-3">Ver Resultados Gráficos</h5>
-                            <p class="card-text">Visualiza la distribución de votos de forma intuitiva.</p>
-                            <a href="/resultados_graficos" class="btn btn-success mt-auto">Ver Gráfico</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-5">
-                <a href="/" class="btn btn-outline-secondary">Volver a la Página Principal (Votar)</a>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Administrador - Sistema de Votación</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: radial-gradient(ellipse at 0% 100%, rgba(104, 128, 138, 0.4) 10%, rgba(138, 114, 76, 0) 40%),
+                  linear-gradient(to bottom, rgba(57, 173, 219, 0.25) 0%, rgba(42, 60, 87, 0.4) 100%),
+                  linear-gradient(135deg, #670d10 0%, #092756 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .admin-panel {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px #0002;
+      padding: 40px 32px 32px 32px;
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .panel-title {
+      font-size: 2em;
+      color: #092756;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .panel-desc {
+      color: #555;
+      margin-bottom: 32px;
+      font-size: 1.1em;
+    }
+    .card-group {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .card-option {
+      background: #f4f6fa;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0001;
+      padding: 28px 20px 20px 20px;
+      min-width: 180px;
+      max-width: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+    .card-option:hover {
+      box-shadow: 0 4px 16px #2980b9;
+    }
+    .card-icon {
+      font-size: 2.5em;
+      margin-bottom: 12px;
+      color: #2980b9;
+    }
+    .card-title {
+      font-size: 1.15em;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #092756;
+    }
+    .card-desc {
+      font-size: 0.98em;
+      color: #555;
+      margin-bottom: 18px;
+    }
+    .btn {
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 24px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover { background: #1c5d85; }
+    .back-btn {
+      margin-top: 18px;
+      background: #555;
+    }
+    .back-btn:hover {
+      background: #092756;
+    }
+    @media (max-width: 800px) {
+      .card-group {
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+      }
+      .admin-panel {
+        max-width: 98vw;
+        padding: 16px 4px;
+      }
+    }
+  </style>
+  <!-- Puedes usar iconos de FontAwesome si lo agregas en tu proyecto -->
+</head>
+<body>
+  <div class="admin-panel">
+    <div class="panel-title">Bienvenido, Administrador</div>
+    <div class="panel-desc">Gestiona los resultados y votantes del sistema de votación.</div>
+    <div class="card-group">
+      <div class="card-option">
+        <div class="card-icon">&#128202;</div>
+        <div class="card-title">Ver Resultados en Lista</div>
+        <div class="card-desc">Consulta el detalle de los votos por candidato.</div>
+        <a href="/resultados" class="btn">Ir a Resultados</a>
+      </div>
+      <div class="card-option">
+        <div class="card-icon">&#128200;</div>
+        <div class="card-title">Ver Resultados Gráficos</div>
+        <div class="card-desc">Visualiza la distribución de votos de forma intuitiva.</div>
+        <a href="/resultados_graficos" class="btn">Ver Gráfico</a>
+      </div>
+      <div class="card-option">
+        <div class="card-icon">&#128221;</div>
+        <div class="card-title">Ver registro de Votantes</div>
+        <div class="card-desc">Consulta y exporta la lista de usuarios registrados.</div>
+        <a href="/votantes" class="btn">Ver Votantes</a>
+      </div>
     </div>
-</div>
-{% endblock %}
+    <a href="/" class="btn back-btn">Volver a la Página Principal</a>
+  </div>
+</body>
+</html>

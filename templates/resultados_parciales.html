@@ -186,7 +186,7 @@
                     <tr>
                         <td>{{ voto.identificacion }}</td>
                         <td>{{ voto.nombre }}</td>
-                        <td>{{ voto.eleccion.replace('candidato', 'Candidato ') }}</td>
+                        <td>{{ voto.id_opcion.replace('candidato', 'Candidato ') }}</td>
                         <td>{{ voto.fecha_voto }}</td>
                     </tr>
                     {% else %}
@@ -198,7 +198,7 @@
             </table>
         </div>
 
-        <a href="/home" class="back-link">Volver al Panel de Administrador</a>
+        <a href="/panel_admin" class="back-link">Volver al Panel de Administrador</a>
     </div>
 </body>
 </html>
