@@ -1,18 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mensaje</title>
+    <title>Gracias por tu voto</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .mensaje {
+            text-align: center;
+            font-size: 1.8em;
+            color: #333;
+            background-color: #e0ffe0;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <div class="top-bar">
-        <a href="/" class="admin-button">🏠 Volver al inicio</a>
-    </div>
-
-    <div class="login">
-        <h1>{{ mensaje }}</h1>
+    <div class="mensaje">
+        {{ mensaje }}
     </div>
 </body>
 </html>

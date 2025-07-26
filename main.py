@@ -1,8 +1,8 @@
-
 from flask import Flask, render_template, request, redirect, session, send_file, jsonify, url_for
 import sqlite3
 import csv
 import io
+import re
 
 app = Flask(__name__)
 app.secret_key = 'supersecreto'
@@ -25,6 +25,11 @@ def index():
     if request.method == "POST":
         nombre = request.form["nombre"]
         identificacion = request.form["identificacion"]
+
+        # Validación: el nombre no debe contener números ni caracteres inválidos
+        if not re.match(r'^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$', nombre):
+            mensaje = "❌ El nombre no puede contener números ni caracteres especiales."
+            return render_template("index.html", mensaje=mensaje)
 
         conn = get_db_connection()
         user = conn.execute("SELECT * FROM usuarios WHERE identificacion = ?", (identificacion,)).fetchone()
