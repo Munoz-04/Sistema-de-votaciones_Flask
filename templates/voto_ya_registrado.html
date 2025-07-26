@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ya Has Votado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 380px; /* Ancho ajustado para el mensaje */
+            text-align: center;
+        }
+
+        h1 {
+            color: #d9534f; /* Color de advertencia o error (rojo suave) */
+            margin-bottom: 24px;
+        }
+
+        .message {
+            color: #555555;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #d9534f; /* Resalta la identificación duplicada */
+        }
+
+        .button-group {
+            margin-top: 25px;
+        }
+
+        .button-group a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none; /* Quitar subrayado por defecto de los enlaces */
+            margin: 0 10px; /* Espacio entre botones */
+            transition: background-color 0.3s ease;
+        }
+
+        .button-group a:hover {
+            background-color: #45a049;
+        }
+
+        .button-group a.secondary {
+            background-color: #6c757d; /* Color para el botón de resultados */
+        }
+
+        .button-group a.secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Atención!</h1>
+        <p class="message">
+            Parece que la identificación <span class="highlight">{{ identificacion }}</span>
+            ya ha registrado un voto.
+        </p>
+        <p class="message">Solo se permite un voto por identificación.</p>
+        <div class="button-group">
+            <a href="/">Volver al inicio</a>
+            <a href="/resultados" class="secondary">Ver Resultados</a>
+        </div>
+    </div>
+</body>
+</html>

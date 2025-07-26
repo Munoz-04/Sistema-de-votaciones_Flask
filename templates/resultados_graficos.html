@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados Gráficos - Sistema de Votación{% endblock %}
+
+{% block head_extra %}
+<style>
+    .chart-image {
+        max-width: 100%; /* La imagen se ajustará al ancho de su contenedor */
+        height: auto; /* Mantener la proporción */
+        display: block; /* Eliminar espacio extra debajo de la imagen */
+        margin: 0 auto; /* Centrar la imagen */
+    }
+    .total-votes {
+        font-weight: bold;
+        font-size: 1.3em;
+        color: #333;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-lg p-4">
+            <h1 class="card-title text-center mb-4">Resultados Gráficos de la Votación</h1>
+            
+            <div class="text-center mb-4">
+                <img src="data:image/png;base64,{{ encoded_img }}" alt="Gráfico de Resultados" class="chart-image">
+            </div>
+            
+            <p class="total-votes text-center">Total de votos: <strong>{{ total }} votos</strong></p>
+            
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="/" class="btn btn-outline-primary">Volver al Inicio</a>
+                <a href="/resultados" class="btn btn-outline-secondary">Ver Resultados en Lista</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+{% endblock %}

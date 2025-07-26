@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Emitir Voto - Sistema de Votación{% endblock %}
+
+{% block head_extra %}
+<style>
+    .candidate-card {
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        height: 100%; /* Para que las tarjetas tengan la misma altura */
+    }
+    .candidate-card.selected {
+        border-color: #007bff; /* Borde azul de Bootstrap */
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+    }
+    .candidate-card:hover {
+        transform: translateY(-5px); /* Pequeño efecto de elevación al pasar el ratón */
+    }
+    .candidate-card img {
+        max-width: 100%;
+        height: 150px; /* Altura fija para las imágenes */
+        object-fit: cover; /* Para que las imágenes se recorten si es necesario sin distorsionarse */
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <h1 class="text-center mb-4">Emite tu Voto</h1>
+        <p class="text-center text-muted mb-4">Ingresa tu identificación y nombre, luego selecciona a tu candidato favorito.</p>
+
+        <form action="/votar" method="POST" id="voteForm">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="identificacion" class="form-label">Identificación</label>
+                    <input type="number" class="form-control" id="identificacion" name="identificacion" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre Completo</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+            </div>
+
+            <h2 class="text-center my-4">Selecciona un Candidato</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+                {% for cand_val, cand_name, cand_img in [
+                    ('candidato1', 'Osito Alegre Pérez', url_for('static', filename='img/candidato1.png')),
+                    ('candidato2', 'Raton Noladron García', url_for('static', filename='img/candidato2.png')),
+                    ('candidato3', 'La Iguana Rodríguez', url_for('static', filename='img/candidato3.png'))
+                ] %}
+                <div class="col">
+                    <div class="card h-100 text-center candidate-card" data-candidate="{{ cand_val }}">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <img src="{{ cand_img }}" class="img-fluid mb-3" alt="{{ cand_name }}">
+                            <h5 class="card-title">{{ cand_name }}</h5>
+                            <input type="radio" name="eleccion" value="{{ cand_val }}" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Enviar Elección</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const candidateCards = document.querySelectorAll('.candidate-card');
+        let selectedCandidate = null;
+
+        candidateCards.forEach(card => {
+            card.addEventListener('click', function() {
+                if (selectedCandidate) {
+                    selectedCandidate.classList.remove('selected');
+                    selectedCandidate.querySelector('input[type="radio"]').checked = false;
+                }
+                this.classList.add('selected');
+                this.querySelector('input[type="radio"]').checked = true;
+                selectedCandidate = this;
+            });
+        });
+
+        // Opcional: Validar que se seleccione un candidato antes de enviar
+        const form = document.getElementById('voteForm');
+        form.addEventListener('submit', function(event) {
+            const radioButtons = document.querySelectorAll('input[name="eleccion"]');
+            const isAnySelected = Array.from(radioButtons).some(radio => radio.checked);
+
+            if (!isAnySelected) {
+                alert('Por favor, selecciona un candidato antes de enviar tu elección.');
+                event.preventDefault(); // Evita que el formulario se envíe
+            }
+        });
+    });
+</script>
+{% endblock %}
