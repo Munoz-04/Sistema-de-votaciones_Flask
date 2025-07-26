@@ -14,6 +14,52 @@ ADMIN_USERS = {
     "juandi": "123"
 }
 
+# Crear conexión
+conn = sqlite3.connect("votaciones.db")
+cursor = conn.cursor()
+
+# Crear tabla usuarios
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    identificacion TEXT NOT NULL UNIQUE
+);
+""")
+
+# Crear tabla opciones
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS opciones (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_opcion TEXT NOT NULL,
+    imagen TEXT
+);
+""")
+
+# Crear tabla votos
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS votos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_usuario INTEGER NOT NULL,
+    id_opcion INTEGER NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(id_usuario) REFERENCES usuarios(id),
+    FOREIGN KEY(id_opcion) REFERENCES opciones(id)
+);
+""")
+
+# Insertar opciones
+cursor.execute("SELECT COUNT(*) FROM opciones")
+if cursor.fetchone()[0] == 0:
+    cursor.executemany("INSERT INTO opciones (nombre_opcion, imagen) VALUES (?, ?)", [
+        ("Candidato A", "candidato1.png"),
+        ("Candidato B", "candidato2.png"),
+        ("Candidato C", "candidato3.png")
+    ])
+    
+conn.commit()
+conn.close()
+
 def get_db_connection():
     conn = sqlite3.connect('votaciones.db')
     conn.row_factory = sqlite3.Row
