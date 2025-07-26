@@ -4,6 +4,7 @@ import io
 import pandas as pd
 import json
 import csv
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 app.secret_key = 'clave_segura'
@@ -286,8 +287,16 @@ def descargar_votantes_json():
 def resultados_graficos():
     if not session.get('admin'):
         return redirect(url_for('admin'))
-    # Puedes poner aquí el render de un template con gráficos si lo deseas
-    return "<h1>Funcionalidad de gráficos no implementada aún.</h1><a href='/panel_admin'>Volver</a>"
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT nombre_candidato, votos FROM candidatos ORDER BY nombre_candidato ASC")
+    datos = cursor.fetchall()
+    conn.close()
+
+    return render_template('resultados_graficos.html', datos=datos)
+
+
 
 @app.route('/logout')
 def logout():

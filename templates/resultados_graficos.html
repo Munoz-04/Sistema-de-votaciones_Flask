@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultados en Gráfica</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .grafico-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #0002;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #092756;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 20px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background-color: #1c5d85;
+    }
+  </style>
+</head>
+<body>
+  <div class="grafico-container">
+    <h1>Resultados de Votación</h1>
+    <canvas id="graficoVotos" width="600" height="400"></canvas>
+
+    <a href="/panel_admin" class="btn">Volver al Panel</a>
+  </div>
+
+  <script>
+    const datos = {{ datos|tojson }};
+    const labels = datos.map(item => item.nombre_candidato);
+    const votos = datos.map(item => item.votos);
+
+    const ctx = document.getElementById('graficoVotos').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar', // Cambia a 'pie' si prefieres pastel
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Cantidad de Votos',
+          data: votos,
+          backgroundColor: [
+            '#3498db',
+            '#2ecc71',
+            '#e74c3c',
+            '#f39c12',
+            '#9b59b6',
+            '#1abc9c'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            precision: 0
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

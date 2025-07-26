@@ -17,8 +17,26 @@
       {% endif %}
     {% endwith %}
     <form method="post" action="/register">
-      <input type="text" name="nombre" placeholder="Nombre completo" required>
-      <input type="text" name="identificacion" placeholder="Identificación" required>
+      <!-- Solo letras y espacios -->
+      <input 
+        type="text" 
+        name="nombre" 
+        placeholder="Nombre completo" 
+        required 
+        pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" 
+        title="Solo se permiten letras y espacios"
+      >
+
+      <!-- Solo números -->
+      <input 
+        type="text" 
+        name="identificacion" 
+        placeholder="Identificación" 
+        required 
+        pattern="\d+" 
+        title="Solo se permiten números"
+      >
+
       <button type="submit" class="btn btn-primary btn-block btn-large">Registrarse</button>
     </form>
   </div>
