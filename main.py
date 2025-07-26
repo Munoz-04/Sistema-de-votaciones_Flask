@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS votos (
 );
 """)
 
-# Insertar opciones
+# Conteo de votos
 cursor.execute("SELECT COUNT(*) FROM opciones")
 if cursor.fetchone()[0] == 0:
     cursor.executemany("INSERT INTO opciones (nombre_opcion, imagen) VALUES (?, ?)", [
