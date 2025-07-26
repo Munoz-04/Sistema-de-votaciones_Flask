@@ -1,40 +1,63 @@
 
-{% extends "base.html" %}
-
-{% block title %}Panel de Administrador - Sistema de Votación{% endblock %}
-
-{% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card shadow-lg p-4">
-            <h1 class="card-title text-center mb-4">Bienvenido, Administrador</h1>
-            <p class="text-center text-muted mb-5">Desde aquí puedes gestionar los resultados de la votación.</p>
-
-            <div class="row row-cols-1 row-cols-md-2 g-4 text-center">
-                <div class="col">
-                    <div class="card h-100 border-primary">
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                            <h5 class="card-title mb-3">Ver Resultados en Lista</h5>
-                            <p class="card-text">Consulta el detalle de los votos por candidato.</p>
-                            <a href="/resultados" class="btn btn-primary mt-auto">Ir a Resultados</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 border-success">
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                            <h5 class="card-title mb-3">Ver Resultados Gráficos</h5>
-                            <p class="card-text">Visualiza la distribución de votos de forma intuitiva.</p>
-                            <a href="/resultados_graficos" class="btn btn-success mt-auto">Ver Gráfico</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-5">
-                <a href="/" class="btn btn-outline-secondary">Volver a la Página Principal (Votar)</a>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Votación</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            overflow-y: auto;
+        }
+        .candidato {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .candidato img {
+            max-width: 200px;
+            display: block;
+            margin: 0 auto 10px auto;
+            border-radius: 10px;
+        }
+        .logo-top-left {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            max-width: 60px;
+            height: auto;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='img/python-logo.png') }}" class="logo-top-left">
+    <div class="top-bar">
+        <a href="/admin_login" class="admin-button">🔐 Admin Login</a>
     </div>
-</div>
-{% endblock %}
+
+    <div class="login">
+        <h1>Selecciona tu candidato</h1>
+        <form method="post" action="/home">
+            <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+                <label class="candidato">
+                    <input type="radio" name="opcion" value="1" required>
+                    <img src="{{ url_for('static', filename='img/candidato1.png') }}" alt="Candidato A">
+                    <div>Candidato A</div>
+                </label>
+                <label class="candidato">
+                    <input type="radio" name="opcion" value="2">
+                    <img src="{{ url_for('static', filename='img/candidato2.png') }}" alt="Candidato B">
+                    <div>Candidato B</div>
+                </label>
+                <label class="candidato">
+                    <input type="radio" name="opcion" value="3">
+                    <img src="{{ url_for('static', filename='img/candidato3.png') }}" alt="Candidato C">
+                    <div>Candidato C</div>
+                </label>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Votar</button>
+        </form>
+    </div>
+</body>
+</html>

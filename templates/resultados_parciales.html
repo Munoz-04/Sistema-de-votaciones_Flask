@@ -1,204 +1,48 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Resultados Parciales</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f4f8;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            min-height: 100vh; /* Usar min-height para que el footer se quede abajo */
-            align-items: center;
-            justify-content: flex-start; /* Alinear arriba para permitir scroll */
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .container {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            width: 90%; /* Ajustar ancho para más contenido */
-            max-width: 900px; /* Limitar ancho máximo */
-            text-align: center;
-            margin-top: 50px; /* Margen superior */
-            margin-bottom: 50px; /* Margen inferior */
-        }
-
-        h1 {
-            color: #333333;
-            margin-bottom: 24px;
-        }
-
-        h2 {
-            color: #555555;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-
-        .results-list {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 30px;
-        }
-
-        .results-item {
-            background-color: #e6ffe6;
-            border: 1px solid #c8ecc8;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1em;
-            color: #333;
-        }
-
-        .results-item strong {
-            color: #4CAF50;
-            font-size: 1.2em;
-        }
-
-        .total-votes {
-            font-weight: bold;
-            font-size: 1.3em;
-            color: #333;
-            margin-top: 20px;
-            margin-bottom: 25px;
-        }
-
-        .button-group {
-            display: flex;
-            flex-wrap: wrap; /* Permitir que los botones se envuelvan en pantallas pequeñas */
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px; /* Aumentar margen inferior */
-        }
-
-        .button-group a {
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 1em;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            white-space: nowrap; /* Evitar que el texto del botón se rompa */
-        }
-
-        .button-group .btn-excel {
-            background-color: #28a745; /* Verde de Bootstrap success */
-            color: white;
-            border: 1px solid #218838;
-        }
-
-        .button-group .btn-excel:hover {
-            background-color: #218838;
-        }
-
-        .button-group .btn-json {
-            background-color: #007bff; /* Azul de Bootstrap primary */
-            color: white;
-            border: 1px solid #0069d9;
-        }
-
-        .button-group .btn-json:hover {
-            background-color: #0069d9;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 16px;
-            color: #4CAF50;
-            text-decoration: none;
-            font-size: 1em;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Estilos para la tabla de registros individuales */
-        .votos-table-container {
-            margin-top: 40px;
-            overflow-x: auto; /* Permite scroll horizontal si la tabla es muy ancha */
-        }
-
-        .votos-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .votos-table th, .votos-table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-            font-size: 0.95em;
-        }
-
-        .votos-table th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-
-        .votos-table tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Resultados Parciales de la Votación</h1>
-        <ul class="results-list">
-            {% for candidato_info in resultados %}
-            <li class="results-item">
-                <span>{{ candidato_info.nombre_candidato.replace('candidato', 'Candidato ') }}:</span>
-                <strong>{{ candidato_info.votos }} votos</strong>
-            </li>
-            {% endfor %}
-        </ul>
-        <p class="total-votes">Total de votos: <strong>{{ total }} votos</strong></p>
+    <div class="top-bar">
+        <a href="/logout_admin" class="admin-button">Cerrar sesión admin</a>
+    </div>
 
-        {# Botones para descargar todos los votos individuales #}
-        <div class="button-group">
-            <a href="/descargar_votos_excel" class="btn-excel">Descargar Todos los Votos (Excel)</a>
-            <a href="/descargar_votos_json" class="btn-json">Descargar Todos los Votos (JSON)</a>
-        </div>
-        
-        <h2>Todos los Votos Registrados</h2>
-        <div class="votos-table-container">
-            <table class="votos-table">
-                <thead>
-                    <tr>
-                        <th>Identificación</th>
-                        <th>Nombre</th>
-                        <th>Candidato Votado</th>
-                        <th>Fecha de Voto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for voto in todos_los_votos %}
-                    <tr>
-                        <td>{{ voto.identificacion }}</td>
-                        <td>{{ voto.nombre }}</td>
-                        <td>{{ voto.eleccion.replace('candidato', 'Candidato ') }}</td>
-                        <td>{{ voto.fecha_voto }}</td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4">No hay votos registrados aún.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <div class="login">
+        <h1>Resultados Parciales</h1>
 
-        <a href="/home" class="back-link">Volver al Panel de Administrador</a>
+        <canvas id="grafico" width="400" height="200"></canvas>
+        <script>
+            const labels = JSON.parse('{{ labels | tojson | safe }}');
+            const data = JSON.parse('{{ values | tojson | safe }}');
+
+            new Chart(document.getElementById('grafico'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Votos',
+                        data: data,
+                        backgroundColor: ['#4a77d4', '#67c23a', '#f39c12']
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <br><br>
+        <a href="/exportar_csv" class="btn">📥 Exportar CSV</a>
+        <a href="/exportar_json" class="btn">📥 Exportar JSON</a>
     </div>
 </body>
 </html>
