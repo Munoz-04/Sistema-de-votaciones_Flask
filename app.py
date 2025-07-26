@@ -3,6 +3,7 @@ import sqlite3
 import io
 import pandas as pd
 import json
+import csv
 
 app = Flask(__name__)
 app.secret_key = 'clave_segura'
@@ -230,22 +231,37 @@ def descargar_votos_json():
 def descargar_votantes_excel():
     if not session.get('admin'):
         return redirect(url_for('admin'))
+
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT nombre, identificacion FROM usuarios ORDER BY nombre ASC")
     usuarios = cursor.fetchall()
     conn.close()
-    df = pd.DataFrame([dict(u) for u in usuarios])
-    excel_buffer = io.BytesIO()
-    with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False, sheet_name='Votantes')
-    excel_buffer.seek(0)
+
+    # Crear archivo CSV en memoria
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Escribir encabezados
+    writer.writerow(['Nombre', 'Identificación'])
+
+    # Escribir filas
+    for usuario in usuarios:
+        writer.writerow([usuario['nombre'], usuario['identificacion']])
+
+    # Convertir a BytesIO para enviar como archivo descargable
+    csv_bytes = io.BytesIO()
+    csv_bytes.write(output.getvalue().encode('utf-8'))  # Sin 'utf-8-sig'
+    csv_bytes.seek(0)
+
     return send_file(
-        excel_buffer,
-        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        csv_bytes,
+        mimetype='text/csv',
         as_attachment=True,
-        download_name='votantes.xlsx'
+        download_name='votantes.csv'
     )
+
+
 
 @app.route('/descargar_votantes_json')
 def descargar_votantes_json():
