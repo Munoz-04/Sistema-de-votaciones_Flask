@@ -19,30 +19,14 @@
         {% endif %}
 
         <form method="post" action="/">
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
-            <span id="errorNombre" style="color:red; display:none; font-size: 0.9em;">
-                El nombre no puede contener números ni caracteres especiales.
-            </span>
+            <input type="text" name="nombre" placeholder="Nombre completo" required
+                   minlength="3" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo letras, mínimo 3 caracteres">
+            
+            <input type="text" name="identificacion" placeholder="Identificación" required
+                   minlength="8" pattern="\d+" title="Solo números, mínimo 8 dígitos">
 
-            <input type="number" name="identificacion" placeholder="Identificación" required>
             <button type="submit" class="btn btn-primary">Ingresar</button>
         </form>
     </div>
-
-    <script>
-        const nombreInput = document.getElementById("nombre");
-        const errorNombre = document.getElementById("errorNombre");
-
-        nombreInput.addEventListener("input", function () {
-            const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
-            if (!regex.test(this.value)) {
-                errorNombre.style.display = "block";
-                this.setCustomValidity("Nombre inválido");
-            } else {
-                errorNombre.style.display = "none";
-                this.setCustomValidity("");
-            }
-        });
-    </script>
 </body>
 </html>

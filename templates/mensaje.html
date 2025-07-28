@@ -2,33 +2,50 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gracias por tu voto</title>
+    <title>Mensaje</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         body {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: sans-serif;
-            background-color: #f9f9f9;
+            text-align: center;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
         }
 
-        .mensaje {
-            text-align: center;
-            font-size: 1.8em;
-            color: #333;
-            background-color: #e0ffe0;
-            padding: 30px;
+        .mensaje-box {
+            background-color: white;
+            padding: 30px 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="mensaje">
-        {{ mensaje }}
+    <div class="mensaje-box">
+        <h2>{{ mensaje }}</h2>
+        {% if volver_inicio %}
+        <a href="/" class="btn">Volver al inicio</a>
+        {% endif %}
     </div>
 </body>
 </html>

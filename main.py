@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, session, send_file,
 import sqlite3
 import csv
 import io
-import re
 
 app = Flask(__name__)
 app.secret_key = 'supersecreto'
@@ -25,11 +24,6 @@ def index():
     if request.method == "POST":
         nombre = request.form["nombre"]
         identificacion = request.form["identificacion"]
-
-        # Validación: el nombre no debe contener números ni caracteres inválidos
-        if not re.match(r'^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$', nombre):
-            mensaje = "❌ El nombre no puede contener números ni caracteres especiales."
-            return render_template("index.html", mensaje=mensaje)
 
         conn = get_db_connection()
         user = conn.execute("SELECT * FROM usuarios WHERE identificacion = ?", (identificacion,)).fetchone()
@@ -71,7 +65,7 @@ def home():
         conn.commit()
         conn.close()
         session.pop("usuario_id", None)
-        return render_template("mensaje.html", mensaje="✅ ¡Gracias por tu voto!")
+        return render_template("mensaje.html", mensaje="✅ ¡Gracias por tu voto!", volver_inicio=True)
 
     conn.close()
     return render_template("home.html", opciones=opciones)
@@ -156,3 +150,9 @@ def logout_admin():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route('/votar', methods=['POST'])
+def votar():
+    # lógica de votación...
+    mensaje = "¡Gracias por tu voto!"
+    return render_template("mensaje.html", mensaje=mensaje, volver_inicio=True)
